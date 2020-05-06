@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+    <!--This is the reg form passed on the context-->
+    <form method="post" action="{%url 'register'%}">
+        {%csrf_token%}
+        {{form}}
+        <button type="submit">Register</button>
+    </form>
+    <!--Login redirect-->
+    <a href="../accounts/login">Already have an account? Login here!</a>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<!--Django default form to login-->
+    <form>
+        {%csrf_token%}
+        {{form.as_p}}
+        <button type="submit">Login</button>
+    </form>
+    <!--Redirect to register url in urls.py-->
+    <a href="{%url 'register'%}">Sign up</a>
+</body>
+</html>

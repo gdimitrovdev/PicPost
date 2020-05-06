@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            padding:0px;
+            margin:0px;
+        }
+        .posts{
+            width:350px;
+            margin:auto;
+        }
+        .post{
+            display:inline-block;
+            border:1px solid black;
+            border-radius:12px;
+            padding:20px 0px;
+            margin:10px 0px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Home</h1>
+    <form method="post" action="{%url 'addpost'%}" enctype="multipart/form-data">
+        {%csrf_token%}
+        {{imageform}}
+        {{postform}}
+        <button type="submit">Post</button>
+    </form>
+    <div class="posts">
+        {%for post in posts%}
+        <div class="post">
+            {%for image in post.images.all%}
+                <img width="340px" src="{{image.image.url}}">
+            {%endfor%}
+            <h4 style="text-align:left;">{{post.user.username}}:</h4>
+            <p style="text-align:left;">{{post.title}}</p>
+        </div>
+        {%endfor%}
+    </div>
+    <a href="accounts/logout?next=/">Logout</a>
+
+</body>
+</html>
