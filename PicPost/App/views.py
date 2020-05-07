@@ -17,7 +17,9 @@ def home(request):
     posts=reversed(Post.objects.all())
     #pass the username to display
     user=request.user
-    context={'imageform':imageform, 'postform':postform, 'posts':posts, 'user':user}
+    #number of posts
+    num=len(request.user.posts.all())
+    context={'imageform':imageform, 'postform':postform, 'posts':posts, 'user':user, 'num':num}
     return render(request, 'App/home.html', context)
 
 #Register a new user

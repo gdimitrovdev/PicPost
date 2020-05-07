@@ -47,7 +47,6 @@ background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
         }
         .profile{
             border-left:2px solid black;
-            border-bottom:2px solid black;
             display:inline-block;
             margin:25px;
             padding:25px;
@@ -56,6 +55,19 @@ background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
             text-decoration:none;
             font-size:20px;
             color:#0061ff;
+        }
+        .postInput{
+            border-radius:8px;
+            max-width:600px;
+            border:2px solid #0061ff;
+            padding:5px 7px;
+        }
+        .postBtn{
+            border-radius:8px;
+            max-width:600px;
+            border:2px solid #0061ff;
+            padding:5px 7px;
+            margin:10px;
         }
     </style>
 </head>
@@ -69,9 +81,11 @@ background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
     <div class="form">
         <form method="post" action="{%url 'addpost'%}" enctype="multipart/form-data">
             {%csrf_token%}
-            {{imageform}}
+            <h4>{{user}}:</h4>
             {{postform}}
-            <button type="submit">Post</button>
+            {{imageform}}
+            <br>
+            <button class="postBtn" type="submit">Post</button>
         </form>
     </div>
     <div class="posts">
@@ -87,6 +101,8 @@ background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
         <div class="profile">
             <h2>Your profile:</h2>
             <a class="username" href="{%url 'profile'%}"><b>{{user}}</b></a>
+            <h3>Your posts:</h3>
+            <b><p>{{num}}</p></b>
         </div>
     </div>
 </body>
