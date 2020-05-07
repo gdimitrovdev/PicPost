@@ -8,9 +8,21 @@
         body{
             padding:0px;
             margin:0px;
+            background-color: #ffffff;
+background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
+            background-repeat:no-repeat;
+            background-attachment: fixed;
+        }
+        .header{
+            padding:5px 20px;
+            background-image: linear-gradient(to right, #0061ff , #60efff);
+            border-bottom:1px solid black;
+        }
+        h4{
+            color:#0061ff;
         }
         .posts{
-            width:350px;
+            max-width:600px;
             margin:auto;
         }
         .post{
@@ -19,29 +31,63 @@
             border-radius:12px;
             padding:20px 0px;
             margin:10px 0px;
+            float:left;
+        }
+        .form{
+            margin:20px;
+        }
+        .lgout{
+            color:white;
+            text-decoration:none;
+            border:2px solid white;
+            padding:10px;
+            border-radius:11px;
+            float:right;
+            margin:25px 5px;
+        }
+        .profile{
+            border-left:2px solid black;
+            border-bottom:2px solid black;
+            display:inline-block;
+            margin:25px;
+            padding:25px;
+        }
+        .username{
+            text-decoration:none;
+            font-size:20px;
+            color:#0061ff;
         }
     </style>
 </head>
 <body>
-    <h1>Home</h1>
-    <form method="post" action="{%url 'addpost'%}" enctype="multipart/form-data">
-        {%csrf_token%}
-        {{imageform}}
-        {{postform}}
-        <button type="submit">Post</button>
-    </form>
+    <div class="header">
+        <img height="90" width="90" src="https://img.techpowerup.org/200506/f1d388ef-1293-4536-aea4-4fc56b320794-200x200.png">
+        <a class="lgout" href="accounts/logout?next=/">Logout</a>
+        <!--Link to profile.html where you can delete posts-->
+        <a class="lgout" href="{%url 'profile'%}">My profile</a>
+    </div>
+    <div class="form">
+        <form method="post" action="{%url 'addpost'%}" enctype="multipart/form-data">
+            {%csrf_token%}
+            {{imageform}}
+            {{postform}}
+            <button type="submit">Post</button>
+        </form>
+    </div>
     <div class="posts">
         {%for post in posts%}
         <div class="post">
             {%for image in post.images.all%}
                 <img width="340px" src="{{image.image.url}}">
             {%endfor%}
-            <h4 style="text-align:left;">{{post.user.username}}:</h4>
-            <p style="text-align:left;">{{post.title}}</p>
+            <h4 style="text-align:left; padding:2px 10px;">{{post.user.username}}:</h4>
+            <p style="text-align:left; padding:2px 10px;">{{post.title}}</p>
         </div>
         {%endfor%}
+        <div class="profile">
+            <h2>Your profile:</h2>
+            <a class="username" href="{%url 'profile'%}"><b>{{user}}</b></a>
+        </div>
     </div>
-    <a href="accounts/logout?next=/">Logout</a>
-
 </body>
 </html>

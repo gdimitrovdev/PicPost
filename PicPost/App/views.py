@@ -15,7 +15,9 @@ def home(request):
     postform=PostForm()
     #database of posts to display
     posts=reversed(Post.objects.all())
-    context={'imageform':imageform, 'postform':postform, 'posts':posts}
+    #pass the username to display
+    user=request.user
+    context={'imageform':imageform, 'postform':postform, 'posts':posts, 'user':user}
     return render(request, 'App/home.html', context)
 
 #Register a new user
@@ -52,5 +54,19 @@ def addpost(request):
             post.save()
             post.images.add(image)
     return redirect('../')
+
+def profile(request):
+    my_posts=reversed(request.user.posts.all())
+    context={'posts':my_posts}
+    return render(request,'App/profile.html',context)
+
+#delete function
+def delete(request, post_id):
+    post=Post.objects.get(pk=post_id)
+    images=post.images.all()
+    for image in images:
+        image.delete()
+    post.delete()
+    return redirect('../../profile')
 
 
