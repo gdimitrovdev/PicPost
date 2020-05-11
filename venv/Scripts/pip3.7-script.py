@@ -1,4 +1,4 @@
-#!C:\Users\Lenovo\Documents\PicPost\venv\Scripts\python.exe
+#!C:\Users\Lenovo\Documents\Projects\PicPost\venv\Scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'pip==10.0.1','console_scripts','pip3.7'
 __requires__ = 'pip==10.0.1'
 import re
