@@ -5,3 +5,6 @@ class ImageForm(forms.Form):
 
 class PostForm(forms.Form):
     title=forms.CharField(max_length=500, label='', widget=forms.TextInput(attrs={'class':'postInput'}))
+
+class SearchPostForm(forms.Form):
+    keyword=forms.CharField(max_length=500, label='', widget=forms.TextInput(attrs={'class':'postInput'}))

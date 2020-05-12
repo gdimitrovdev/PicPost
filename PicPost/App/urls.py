@@ -16,5 +16,7 @@ urlpatterns = [
     #path to profile page
     path('profile/', views.profile, name='profile'),
     #delete path
-    path('delete/<path:post_id>', views.delete, name='delete')
+    path('delete/<path:post_id>', views.delete, name='delete'),
+    #path to search
+    path('search/', views.searchpost, name='search'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

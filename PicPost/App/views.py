@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 #Imports needed for creating a new account
 from django.contrib.auth import login, authenticate
-from .forms import PostForm, ImageForm
+from .forms import PostForm, ImageForm, SearchPostForm
 from .models import Image, Post
 
 #Don't allow user to access the page unless logged in
@@ -19,7 +19,9 @@ def home(request):
     user=request.user
     #number of posts
     num=len(request.user.posts.all())
-    context={'imageform':imageform, 'postform':postform, 'posts':posts, 'user':user, 'num':num}
+    #form to search with
+    searchform=SearchPostForm
+    context={'imageform':imageform, 'postform':postform, 'posts':posts, 'user':user, 'num':num, 'searchform':searchform}
     return render(request, 'App/home.html', context)
 
 #Register a new user
@@ -71,4 +73,14 @@ def delete(request, post_id):
     post.delete()
     return redirect('../../profile')
 
-
+def searchpost(request):
+    form=SearchPostForm()
+    if request.method=="POST":
+        form=SearchPostForm(request.POST)
+        if form.is_valid():
+            keyword=request.POST['keyword']
+            related=reversed(Post.objects.filter(title__contains=keyword))
+            context={'related':related}
+            return render(request,'App/search.html',context)
+    else:
+        return redirect('../')

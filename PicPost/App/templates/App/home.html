@@ -89,6 +89,17 @@ background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
         </form>
     </div>
     <div class="posts">
+        <div class="profile">
+            <h2>Your profile:</h2>
+            <a class="username" href="{%url 'profile'%}"><b>{{user}}</b></a>
+            <h3>Your posts:</h3>
+            <b><p>{{num}}</p></b>
+            <form method="post" action="{%url 'search'%}">
+                {%csrf_token%}
+                {{searchform}}
+                <button class="postBtn" type="submit">Search</button>
+            </form>
+        </div>
         {%for post in posts%}
         <div class="post">
             {%for image in post.images.all%}
@@ -98,12 +109,6 @@ background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
             <p style="text-align:left; padding:2px 10px;">{{post.title}}</p>
         </div>
         {%endfor%}
-        <div class="profile">
-            <h2>Your profile:</h2>
-            <a class="username" href="{%url 'profile'%}"><b>{{user}}</b></a>
-            <h3>Your posts:</h3>
-            <b><p>{{num}}</p></b>
-        </div>
     </div>
 </body>
 </html>
