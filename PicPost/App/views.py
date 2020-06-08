@@ -4,8 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 #Imports needed for creating a new account
 from django.contrib.auth import login, authenticate
-from .forms import PostForm, ImageForm, SearchPostForm
+from .forms import PostForm, ImageForm, SearchForm
 from .models import Image, Post
+from django.contrib.auth.models import User
 
 #Don't allow user to access the page unless logged in
 @login_required
@@ -14,14 +15,22 @@ def home(request):
     imageform=ImageForm()
     postform=PostForm()
     #database of posts to display
-    posts=reversed(Post.objects.all())
+    q=request.user.posts.all()
+    for fuser in request.user.getprofile.following.all():
+        q=q.union(fuser.posts.all())
+    posts=reversed(q.order_by('date'))
+    pl=q.count()
+    if pl>0:
+        p=True
+    else:
+        p=False
     #pass the username to display
     user=request.user
     #number of posts
     num=len(request.user.posts.all())
     #form to search with
-    searchform=SearchPostForm
-    context={'imageform':imageform, 'postform':postform, 'posts':posts, 'user':user, 'num':num, 'searchform':searchform}
+    searchform=SearchForm
+    context={'imageform':imageform, 'postform':postform, 'posts':posts, 'user':user, 'num':num, 'searchform':searchform, 'p':p}
     return render(request, 'App/home.html', context)
 
 #Register a new user
@@ -30,7 +39,7 @@ def register(request):
     #check if form has been filled
     if request.method=="POST":
         form=UserCreationForm(request.POST)
-        if form.is_valid:
+        if form.is_valid():
             form.save()
             #Get provided username and password
             username=form.cleaned_data['username']
@@ -59,24 +68,30 @@ def addpost(request):
             post.images.add(image)
     return redirect('../')
 
-def profile(request):
-    my_posts=reversed(request.user.posts.all())
-    context={'posts':my_posts}
+def profile(request, user_id):
+    puser=User.objects.get(pk=user_id)
+    my_posts=reversed(puser.posts.all())
+    if str(request.user.id)==str(user_id):
+        isMine=True
+    else:
+        isMine = False
+    # print(request.user.getprofile.getprofile_set.all())
+    context={'posts':my_posts, 'isMine':isMine, 'user_id':user_id}
     return render(request,'App/profile.html',context)
 
 #delete function
-def delete(request, post_id):
+def delete(request, post_id, user_id):
     post=Post.objects.get(pk=post_id)
     images=post.images.all()
     for image in images:
         image.delete()
     post.delete()
-    return redirect('../../profile')
+    return redirect('../../../profile/'+str(user_id))
 
 def searchpost(request):
-    form=SearchPostForm()
+    form=SearchForm()
     if request.method=="POST":
-        form=SearchPostForm(request.POST)
+        form=SearchForm(request.POST)
         if form.is_valid():
             keyword=request.POST['keyword']
             related=reversed(Post.objects.filter(title__contains=keyword))
@@ -84,3 +99,19 @@ def searchpost(request):
             return render(request,'App/search.html',context)
     else:
         return redirect('../')
+
+def searchprofile(request):
+    form=SearchForm()
+    if request.method=="POST":
+        form=SearchForm(request.POST)
+        if form.is_valid():
+            keyword=request.POST['keyword']
+            related=User.objects.filter(username__contains=keyword)
+            context={'related':related}
+            return render(request,'App/searchProfile.html',context)
+    else:
+        return redirect('../')
+
+def follow(request, id):
+    request.user.getprofile.following.add(User.objects.get(pk=id))
+    return redirect('../../')

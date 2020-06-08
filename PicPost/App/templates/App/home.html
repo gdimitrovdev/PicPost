@@ -8,22 +8,22 @@
         body{
             padding:0px;
             margin:0px;
-            background-color: #ffffff;
-background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
+            background-color: #1e2129;
             background-repeat:no-repeat;
             background-attachment: fixed;
         }
         .header{
             padding:5px 20px;
-            background-image: linear-gradient(to right, #0061ff , #60efff);
+            background-color:#00acc1;
             border-bottom:1px solid black;
         }
         h4{
-            color:#0061ff;
+            color:#00acc1;
         }
         .posts{
-            max-width:600px;
-            margin:auto;
+            display:flex;
+            justify-content:center;
+            padding-right:380px;
         }
         .post{
             display:inline-block;
@@ -35,6 +35,8 @@ background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
         }
         .form{
             margin:20px;
+            width:100vw-40px;
+            text-align:center;
         }
         .lgout{
             color:white;
@@ -46,28 +48,48 @@ background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
             margin:25px 5px;
         }
         .profile{
-            border-left:2px solid black;
+            border-right:2px solid black;
             display:inline-block;
             margin:25px;
             padding:25px;
+            height:500px;
         }
         .username{
             text-decoration:none;
             font-size:20px;
-            color:#0061ff;
+            color:#00acc1;
         }
         .postInput{
             border-radius:8px;
             max-width:600px;
-            border:2px solid #0061ff;
+            border:2px solid #00acc1;
             padding:5px 7px;
         }
         .postBtn{
             border-radius:8px;
             max-width:600px;
-            border:2px solid #0061ff;
+            border:2px solid #00acc1;
             padding:5px 7px;
             margin:10px;
+        }
+        .manyP{
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+        }
+        @media screen and (max-width:600px){
+            .posts{
+                flex-direction:column;
+                padding:unset;
+            }
+        }
+        p, label, h2, h3{
+            color:white;
+        }
+        #id_image{
+            color:white;
+            width:180px;
         }
     </style>
 </head>
@@ -76,39 +98,57 @@ background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
         <img height="90" width="90" src="https://img.techpowerup.org/200506/f1d388ef-1293-4536-aea4-4fc56b320794-200x200.png">
         <a class="lgout" href="accounts/logout?next=/">Logout</a>
         <!--Link to profile.html where you can delete posts-->
-        <a class="lgout" href="{%url 'profile'%}">My profile</a>
+        <a class="lgout" href="{%url 'profile' user.id%}">My profile</a>
     </div>
     <div class="form">
         <form method="post" action="{%url 'addpost'%}" enctype="multipart/form-data">
             {%csrf_token%}
             <h4>{{user}}:</h4>
             {{postform}}
-            {{imageform}}
             <br>
+            <br>
+            {{imageform}}
             <button class="postBtn" type="submit">Post</button>
         </form>
     </div>
     <div class="posts">
         <div class="profile">
             <h2>Your profile:</h2>
-            <a class="username" href="{%url 'profile'%}"><b>{{user}}</b></a>
+            <a class="username" href="{%url 'profile' user.id%}"><b>{{user}}</b></a>
             <h3>Your posts:</h3>
             <b><p>{{num}}</p></b>
+            <br>
+            <p>Find posts:</p>
+            <br>
             <form method="post" action="{%url 'search'%}">
                 {%csrf_token%}
                 {{searchform}}
                 <button class="postBtn" type="submit">Search</button>
             </form>
+            <br>
+            <p>Find users:</p>
+            <br>
+            <form method="post" action="{%url 'searchprofile'%}">
+                {%csrf_token%}
+                {{searchform}}
+                <button class="postBtn" type="submit">Search</button>
+            </form>
         </div>
-        {%for post in posts%}
-        <div class="post">
-            {%for image in post.images.all%}
-                <img width="340px" src="{{image.image.url}}">
-            {%endfor%}
-            <h4 style="text-align:left; padding:2px 10px;">{{post.user.username}}:</h4>
-            <p style="text-align:left; padding:2px 10px;">{{post.title}}</p>
-        </div>
-        {%endfor%}
+        {%if p%}
+            <div class="manyP">
+                {%for post in posts%}
+                <div class="post">
+                    {%for image in post.images.all%}
+                        <img width="340px" src="{{image.image.url}}">
+                    {%endfor%}
+                    <a href="{%url 'profile' post.user.id%}" style="text-decoration:none;"><h4 style="text-align:left; padding:2px 10px;">{{post.user.username}}:</h4></a>
+                    <p style="text-align:left; padding:2px 10px;">{{post.title}}</p>
+                </div>
+                {%endfor%}
+            </div>
+        {%else%}
+            <p style="font-size:30px;">Follow people or make a post to see posts here.</p>
+        {%endif%}
     </div>
 </body>
 </html>

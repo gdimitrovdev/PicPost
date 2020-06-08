@@ -14,9 +14,11 @@ urlpatterns = [
     #path to create a post
     path('addpost/', views.addpost, name='addpost'),
     #path to profile page
-    path('profile/', views.profile, name='profile'),
+    path('profile/<path:user_id>/', views.profile, name='profile'),
     #delete path
-    path('delete/<path:post_id>', views.delete, name='delete'),
+    path('delete/<path:post_id>/<path:user_id>', views.delete, name='delete'),
     #path to search
     path('search/', views.searchpost, name='search'),
+    path('searchprofile/', views.searchprofile, name='searchprofile'),
+    path('follow/<path:id>', views.follow, name='follow')
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,15 +4,53 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            background-color: #1e2129;
+            padding:0px;
+            margin:0px;
+        }
+        p, a{
+            color:white;
+        }
+        a{
+            text-decoration:none;
+        }
+        .page{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+        .middiv{
+            background-color:#00acc1;
+            border-radius:8px;
+            padding:20px;
+            font-size:26px;
+            text-align:center;
+        }
+        .middiv button, a{
+            border:1px solid white;
+            border-radius:4px;
+            padding:8px;
+            font-size:23px;
+            background-color:#00acc1;
+            color:white;
+        }
+    </style>
 </head>
 <body>
 <!--Django default form to login-->
-    <form method="post">
-        {%csrf_token%}
-        {{form.as_p}}
-        <button type="submit">Login</button>
-    </form>
-    <!--Redirect to register url in urls.py-->
-    <a href="{%url 'register'%}">Sign up</a>
+    <div class="page">
+        <div class="middiv">
+            <form method="post">
+                {%csrf_token%}
+                {{form.as_p}}
+                <button type="submit">Login</button>
+                <a href="{%url 'register'%}">Sign up</a>
+            </form>
+        </div>
+    </div>
+
 </body>
 </html>

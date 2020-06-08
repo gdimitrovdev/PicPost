@@ -4,15 +4,57 @@
     <meta charset="UTF-8">
     <title>Register</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            background-color: #1e2129;
+            padding:0px;
+            margin:0px;
+        }
+        p, a{
+            color:white;
+        }
+        a{
+            text-decoration:none;
+        }
+        .page{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+        .middiv{
+            background-color:#00acc1;
+            border-radius:8px;
+            padding:20px;
+            font-size:26px;
+            text-align:center;
+        }
+        .middiv button, a{
+            border:1px solid white;
+            border-radius:4px;
+            padding:8px;
+            font-size:23px;
+            background-color:#00acc1;
+            color:white;
+            margin-top:20px;
+        }
+        .helptext{
+            display:none;
+        }
+    </style>
 </head>
 <body>
+    <div class="page">
+        <div class="middiv">
+            <form method="post" action="{%url 'register'%}">
+                {%csrf_token%}
+                {{form}}
+                <button type="submit">Register</button>
+                <a href="../accounts/login">Login</a>
+            </form>
+        </div>
+    </div>
     <!--This is the reg form passed on the context-->
-    <form method="post" action="{%url 'register'%}">
-        {%csrf_token%}
-        {{form}}
-        <button type="submit">Register</button>
-    </form>
-    <!--Login redirect-->
-    <a href="../accounts/login">Already have an account? Login here!</a>
+
 </body>
 </html>
