@@ -58,10 +58,14 @@
     </div>
     {%if isMine%}
     {%else%}
-    <div style="padding:20px;">
+    <div style="padding:20px; text-align:center;">
         <p style="display:inline; font-size:30px;">Followers: 2</p>
         <p style="display:inline; font-size:30px; margin:10px;">|</p>
+        {%if isFollowed%}
+        <a href="{%url 'unfollow' user_id%}" style="text-decoration:none; font-size:30px; color:white;">Unfollow</a>
+        {%else%}
         <a href="{%url 'follow' user_id%}" style="text-decoration:none; font-size:30px; color:white;">Follow</a>
+        {%endif%}
     </div>
     {%endif%}
     {%for post in posts%}

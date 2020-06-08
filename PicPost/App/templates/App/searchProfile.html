@@ -43,9 +43,13 @@
         <a class="lgout" href="../">Home</a>
     </div>
     <div class="results">
-        {%for user in related%}
+        {%for user, isFollowed in related%}
         <a href="{%url 'profile' user.id%}" style="text-decoration:none; font-size:30px; color:white;">{{user.username}}  |   </a>
+        {%if isFollowed%}
+        <a href="{%url 'unfollow' user.id%}" style="text-decoration:none; font-size:30px; color:white;">Unfollow</a>
+        {%else%}
         <a href="{%url 'follow' user.id%}" style="text-decoration:none; font-size:30px; color:white;">Follow</a>
+        {%endif%}
         <br>
         {%endfor%}
     </div>

@@ -20,5 +20,6 @@ urlpatterns = [
     #path to search
     path('search/', views.searchpost, name='search'),
     path('searchprofile/', views.searchprofile, name='searchprofile'),
-    path('follow/<path:id>', views.follow, name='follow')
+    path('follow/<path:id>', views.follow, name='follow'),
+    path('unfollow/<path:id>', views.unfollow, name='unfollow'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

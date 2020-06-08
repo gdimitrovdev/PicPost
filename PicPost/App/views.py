@@ -70,13 +70,16 @@ def addpost(request):
 
 def profile(request, user_id):
     puser=User.objects.get(pk=user_id)
+    isFollowed=False
+    if puser in request.user.getprofile.following.all():
+        isFollowed=True
     my_posts=reversed(puser.posts.all())
     if str(request.user.id)==str(user_id):
         isMine=True
     else:
         isMine = False
     # print(request.user.getprofile.getprofile_set.all())
-    context={'posts':my_posts, 'isMine':isMine, 'user_id':user_id}
+    context={'posts':my_posts, 'isMine':isMine, 'user_id':user_id, 'isFollowed':isFollowed}
     return render(request,'App/profile.html',context)
 
 #delete function
@@ -106,7 +109,14 @@ def searchprofile(request):
         form=SearchForm(request.POST)
         if form.is_valid():
             keyword=request.POST['keyword']
-            related=User.objects.filter(username__contains=keyword)
+            users=User.objects.filter(username__contains=keyword)
+            isFollowed=[]
+            for u in users:
+                if u in request.user.getprofile.following.all():
+                    isFollowed.append(True)
+                else:
+                    isFollowed.append(False)
+            related=zip(users,isFollowed)
             context={'related':related}
             return render(request,'App/searchProfile.html',context)
     else:
@@ -114,4 +124,8 @@ def searchprofile(request):
 
 def follow(request, id):
     request.user.getprofile.following.add(User.objects.get(pk=id))
+    return redirect('../../')
+
+def unfollow(request, id):
+    request.user.getprofile.following.remove(User.objects.get(pk=id))
     return redirect('../../')
