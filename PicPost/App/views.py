@@ -79,7 +79,8 @@ def profile(request, user_id):
     else:
         isMine = False
     # print(request.user.getprofile.getprofile_set.all())
-    context={'posts':my_posts, 'isMine':isMine, 'user_id':user_id, 'isFollowed':isFollowed}
+    followersNum=puser.followed_by.all().count()
+    context={'posts':my_posts, 'isMine':isMine, 'user_id':user_id, 'isFollowed':isFollowed,'fn':followersNum}
     return render(request,'App/profile.html',context)
 
 #delete function

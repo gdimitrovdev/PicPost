@@ -20,7 +20,7 @@ class Post(models.Model):
 
 class Profile(models.Model):
     user=models.OneToOneField(get_user_model(), on_delete=models.CASCADE, null=True, related_name='getprofile')
-    following=models.ManyToManyField(get_user_model())
+    following=models.ManyToManyField(get_user_model(), related_name='followed_by')
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
