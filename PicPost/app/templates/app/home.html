@@ -41,9 +41,7 @@
         .lgout{
             color:white;
             text-decoration:none;
-            border:2px solid white;
             padding:10px;
-            border-radius:11px;
             float:right;
             margin:25px 5px;
         }
@@ -96,9 +94,10 @@
 <body>
     <div class="header">
         <img height="90" width="90" src="https://img.techpowerup.org/200506/f1d388ef-1293-4536-aea4-4fc56b320794-200x200.png">
-        <a class="lgout" href="accounts/logout?next=/">Logout</a>
+        <a class="lgout" href="accounts/logout?next=/"><img height="30px" src="../../../media/assets/logout.png"></a>
+        <a class="lgout" href="{%url 'messages'%}"><img height="30px" src="../../../media/assets/chat.png"></a>
         <!--Link to profile.html where you can delete posts-->
-        <a class="lgout" href="{%url 'profile' user.id%}">My profile</a>
+        <a class="lgout" href="{%url 'profile' user.id%}"><img height="30px" src="../../../media/assets/profile.png"></a>
     </div>
     <div class="form">
         <form method="post" action="{%url 'addpost'%}" enctype="multipart/form-data">

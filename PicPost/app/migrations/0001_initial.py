@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=500)),
                 ('created_date', models.DateField(auto_now=True)),
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('images', models.ManyToManyField(to='App.Image')),
+                ('images', models.ManyToManyField(to='app.Image')),
             ],
         ),
     ]

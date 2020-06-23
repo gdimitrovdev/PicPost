@@ -32,9 +32,7 @@
         .lgout{
             color:white;
             text-decoration:none;
-            border:2px solid white;
             padding:10px;
-            border-radius:11px;
             float:right;
             margin:25px 5px;
         }
@@ -52,10 +50,11 @@
 <body>
     <div class="header">
         <img height="90" width="90" src="https://img.techpowerup.org/200506/f1d388ef-1293-4536-aea4-4fc56b320794-200x200.png">
-        <a class="lgout" href="../../accounts/logout?next=/">Logout</a>
+        <a class="lgout" href="../../accounts/logout?next=/"><img height="30px" src="../../../media/assets/logout.png"></a>
         <!--Go back to home-->
-        <a class="lgout" href="../../">Home</a>
+        <a class="lgout" href="../../"><img height="30px" src="../../../media/assets/home.png"></a>
     </div>
+    <p style="float:left; font-size:25px; padding:10px 25px;">{{name}}</p>
     {%if isMine%}
     {%else%}
     <div style="padding:20px; text-align:center;">
@@ -65,6 +64,8 @@
         <a href="{%url 'unfollow' user_id%}" style="text-decoration:none; font-size:30px; color:white;">Unfollow</a>
         {%else%}
         <a href="{%url 'follow' user_id%}" style="text-decoration:none; font-size:30px; color:white;">Follow</a>
+        <br>
+        <a href="{%url 'changeurl' user_id%}" style="text-decoration:none; font-size:30px; color:white;">Message</a>
         {%endif%}
     </div>
     {%endif%}

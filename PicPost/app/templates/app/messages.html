@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Messages</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            padding:0px;
+            margin:0px;
+            background-color: #1e2129;
+            background-repeat:no-repeat;
+            background-attachment: fixed;
+        }
+        .header{
+            padding:5px 20px;
+            background-color: #00acc1;
+            border-bottom:1px solid black;
+        }
+        .lgout{
+            color:white;
+            text-decoration:none;
+            padding:10px;
+            float:right;
+            margin:25px 5px;
+        }
+        p{
+            color:white;
+        }
+        a{
+            text-decoration:none;
+            color:white;
+        }
+        .msg-container{
+            text-align:center;
+            width:100%;
+        }
+        .brd1{
+            border-top:2px solid #00acc1;
+            padding-top:20px;
+        }
+        .brd2{
+            border-bottom:2px solid #00acc1;
+            padding-bottom:20px;
+        }
+        .brd1, .brd2{
+            width:300px;
+            margin:10px;
+            text-align:left;
+            padding-left:25px;
+        }
+        .postInput{
+            border-radius:8px;
+            max-width:600px;
+            border:2px solid #00acc1;
+            padding:5px 7px;
+        }
+        .postBtn{
+            border-radius:8px;
+            max-width:600px;
+            border:2px solid #00acc1;
+            padding:5px 7px;
+            margin:10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img height="90" width="90" src="https://img.techpowerup.org/200506/f1d388ef-1293-4536-aea4-4fc56b320794-200x200.png">
+        <a class="lgout" href="../accounts/logout?next=/"><img height="30px" src="../../../media/assets/logout.png"></a>
+        <!--Go back to home-->
+        <a class="lgout" href="../"><img height="30px" src="../../../media/assets/home.png"></a>
+    </div>
+    <form method="post" action="{%url 'searchprofile'%}">
+        {%csrf_token%}
+        {{searchform}}
+        <button class="postBtn" type="submit">Search</button>
+    </form>
+    <div class="msg-container">
+        {%for key, value in last%}
+            <a href="../chat/{{value.room}}">
+                <div style="width:340px;overflow: hidden;">
+                    <p class="brd1" style="text-overflow: ellipsis;">{{key.username}}</p>
+                    <p class="brd2" style="text-overflow: ellipsis;">{{value.sender}}: {{value.text}}</p>
+                </div>
+            </a>
+        {%endfor%}
+    </div>
+</body>
+</html>

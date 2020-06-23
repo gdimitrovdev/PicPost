@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'App'
+    'app',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,17 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL='/'
 
-#Upload images
+# Upload images
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# channels
+ASGI_APPLICATION='PicPost.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
