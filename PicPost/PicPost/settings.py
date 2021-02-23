@@ -135,7 +135,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379), ('https://picpost123.herokuapp.com/', 6379)],
+            "hosts": ["redis://:pc5b9596ef93d4c60def5913aa792e546d932f3d1d86c278ea10d99a199010e4e@ec2-52-48-196-4.eu-west-1.compute.amazonaws.com:7909"],
         },
     },
 }
