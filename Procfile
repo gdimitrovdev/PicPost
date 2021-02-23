@@ -1,2 +1,2 @@
 release: bash ./release_commands.sh
-web: gunicorn PicPost.PicPost.wsgi --log-file -
+web: gunicorn --pythonpath PicPost PicPost.wsgi --log-file -
