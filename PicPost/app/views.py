@@ -12,8 +12,8 @@ from django.http import JsonResponse
 @login_required
 def home(request):
     # Form for the post
-    imageform=ImageForm()
-    postform=PostForm()
+    imageform = ImageForm()
+    postform = PostForm()
 
     # database of posts to display
     q=request.user.posts.all()
