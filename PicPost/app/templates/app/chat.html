@@ -43,13 +43,26 @@
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
-        const chatSocket = new WebSocket(
-            'wss://'
-            + window.location.host
-            + '/wss/chat/'
-            + roomName
-            + '/'
-        );
+        var chatSocket = "";
+
+        if(document.location.protocol == "https:"){
+            chatSocket = new WebSocket(
+                'wss://'
+                + window.location.host
+                + '/wss/chat/'
+                + roomName
+                + '/'
+            );
+        }
+        else{
+            chatSocket = new WebSocket(
+                'ws://'
+                + window.location.host
+                + '/ws/chat/'
+                + roomName
+                + '/'
+            );
+        }
 
         chatSocket.addEventListener('open', function(event) {
             $.ajax({
