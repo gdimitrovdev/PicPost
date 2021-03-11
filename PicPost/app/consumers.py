@@ -3,7 +3,9 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from django.contrib.auth import get_user_model
 from .models import Message
-User=get_user_model()
+
+User = get_user_model()
+
 
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
@@ -31,19 +33,19 @@ class ChatConsumer(WebsocketConsumer):
 
         # get both users
         user = self.scope["user"]
-        getIDS=self.scope["url_route"]["kwargs"]["room_name"]
-        ids = getIDS.split('_')
-        myUser = User.objects.get(username=user.username)
-        myID = myUser.id
-        otherID = 0
-        if str(ids[0]) == str(myID):
-            otherID = ids[1]
+        get_ids = self.scope["url_route"]["kwargs"]["room_name"]
+        ids = get_ids.split('_')
+        my_user = User.objects.get(username=user.username)
+        my_id = my_user.id
+        other_id = 0
+        if str(ids[0]) == str(my_id):
+            other_id = ids[1]
         else:
-            otherID = ids[0]
-        otherUser = User.objects.get(pk=otherID)
+            other_id = ids[0]
+        other_user = User.objects.get(pk=other_id)
 
         # save the sent message to a database
-        new_message = Message(sender=myUser, rec=otherUser, text=message, room=getIDS)
+        new_message = Message(sender=my_user, rec=other_user, text=message, room=get_ids)
         new_message.save()
 
         # Send message to room group
@@ -60,9 +62,9 @@ class ChatConsumer(WebsocketConsumer):
     def chat_message(self, event):
         message = event['message']
         # get the user that sent the message
-        user=event['user']
+        user = event['user']
         # Send message to WebSocket
         self.send(text_data=json.dumps({
             'message': message,
-            'user':user
+            'user': user
         }))

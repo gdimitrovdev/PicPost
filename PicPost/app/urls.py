@@ -25,4 +25,4 @@ urlpatterns = [
     # views.get_msg is called whenever an user connects to the websocket
     path('ajax/get_msg/', views.get_msg, name='get_msg'),
     path('messages/', views.messages, name='messages'),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
