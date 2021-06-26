@@ -67,6 +67,7 @@ def register(request):
     return render(request, 'registration/register.html', context)
 
 
+@login_required
 def addpost(request):
     imageform = ImageForm()
     postform = PostForm()
@@ -84,6 +85,7 @@ def addpost(request):
     return redirect('../')
 
 
+@login_required
 def profile(request, user_id):
     # get the user whose profile we are watching
     puser = User.objects.get(pk=user_id)
@@ -118,6 +120,7 @@ def profile(request, user_id):
     return render(request, 'app/profile.html', context)
 
 
+@login_required
 # delete function
 def delete(request, post_id, user_id):
     post = Post.objects.get(pk=post_id)
@@ -128,6 +131,7 @@ def delete(request, post_id, user_id):
     return redirect('../../../profile/'+str(user_id))
 
 
+@login_required
 def searchpost(request):
     form = SearchForm()
     if request.method == "POST":
@@ -141,6 +145,7 @@ def searchpost(request):
         return redirect('../')
 
 
+@login_required
 def searchprofile(request):
     form = SearchForm()
     if request.method == "POST":
@@ -161,16 +166,19 @@ def searchprofile(request):
         return redirect('../')
 
 
+@login_required
 def follow(request, id):
     request.user.getprofile.following.add(User.objects.get(pk=id))
     return redirect('../../')
 
 
+@login_required
 def unfollow(request, id):
     request.user.getprofile.following.remove(User.objects.get(pk=id))
     return redirect('../../')
 
 
+@login_required
 def changeurl(request, id):
     # s will be the string of the generated url
     s = ''
@@ -189,6 +197,7 @@ def changeurl(request, id):
     return redirect('../../chat/'+s)
 
 
+@login_required
 # this is the chat url
 def chat(request, room_name):
     ids = room_name.split('_')
@@ -197,6 +206,7 @@ def chat(request, room_name):
     return render(request, 'app/chat.html', {'room_name': room_name})
 
 
+@login_required
 # this is an ajax call to preload the last 50 messages between the two users
 def get_msg(request):
     room = request.GET.get('room', None)
@@ -209,6 +219,7 @@ def get_msg(request):
     return JsonResponse(data)
 
 
+@login_required
 # this function loads all conversations that the user has participated in
 def messages(request):
     last = {}
