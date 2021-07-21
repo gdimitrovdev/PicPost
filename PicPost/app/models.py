@@ -23,6 +23,7 @@ class Post(models.Model):
     images = models.ManyToManyField(Image)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, related_name='posts')
     date = models.DateField(auto_now_add=True)
+    likes = models.ManyToManyField(get_user_model(), related_name='liked')
 
 
 # OneToOneField to the User model made to implement the following functionality
