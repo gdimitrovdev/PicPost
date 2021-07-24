@@ -253,3 +253,17 @@ def messages(request):
 
     context = {'last': list_of_tuples, 'searchform': searchform}
     return render(request, 'app/messages.html', context)
+
+
+@login_required
+def like_post(request):
+    post_id = request.GET.get('id', None)
+    post = Post.objects.get(pk=post_id)
+
+    if request.user not in post.likes.all():
+        post.likes.add(request.user)
+    else:
+        post.likes.remove(request.user)
+
+    post.save()
+    return JsonResponse({})
