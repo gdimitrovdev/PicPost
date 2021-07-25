@@ -79,7 +79,48 @@
         {%if isMine%}
         <a class="del" href="{%url 'delete' post.id user_id%}">Delete post</a>
         {%endif%}
+        {% if user in post.likes.all %}
+            <button value="{{ post.id }}" id="dislike" style="text-align: left; padding: 2px 10px; color: red;">Liked</button>
+        {% else %}
+            <button value="{{ post.id }}" id="like" style="text-align: left; padding: 2px 10px; color: gray;">Not liked</button>
+        {% endif %}
     </div>
     {%endfor%}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        let like_buttons = document.querySelectorAll("#like");
+        let dislike_buttons = document.querySelectorAll('#dislike');
+
+        for(let i=0; i<like_buttons.length; i++){
+            btn = like_buttons[i];
+            btn.addEventListener('click', function(i){
+                $.ajax({
+                    type: 'GET',
+                    url: "{% url 'like_post' %}",
+                    data: {"id": btn.value},
+                    success: function (response) {
+                        btn.textContent = 'Liked';
+                        btn.style.color = 'red';
+                    }
+                })
+            });
+        }
+
+        for(let i=0; i<dislike_buttons.length; i++){
+            btn = dislike_buttons[i];
+            btn.addEventListener('click', function(i){
+                $.ajax({
+                    type: 'GET',
+                    url: "{% url 'like_post' %}",
+                    data: {"id": btn.value},
+                    success: function (response) {
+                        btn.textContent = 'Not liked';
+                        btn.style.color = 'gray';
+                    }
+                })
+            });
+        }
+    </script>
 </body>
 </html>
