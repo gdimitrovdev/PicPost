@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from .forms import PostForm, ImageForm, SearchForm
-from .models import Image, Post, Message
+from .models import Image, Post, Message, Comment
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 
@@ -266,4 +266,18 @@ def like_post(request):
         post.likes.remove(request.user)
 
     post.save()
+    return JsonResponse({})
+
+
+@login_required
+def comment_post(request):
+    post_id = request.GET.get('id', None)
+    post = Post.objects.get(pk=post_id)
+    comment_text = request.GET.get('text', None)
+
+    print('We got to here----------------')
+
+    new_comment = Comment(user=request.user, post=post, text=comment_text)
+    new_comment.save()
+
     return JsonResponse({})

@@ -26,5 +26,7 @@ urlpatterns = [
     path('ajax/get_msg/', views.get_msg, name='get_msg'),
     path('messages/', views.messages, name='messages'),
     # path to like and dislike posts
-    path('like_post', views.like_post, name='like_post')
+    path('like_post', views.like_post, name='like_post'),
+    # path to comment posts
+    path('comment_post', views.comment_post, name='comment_post'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

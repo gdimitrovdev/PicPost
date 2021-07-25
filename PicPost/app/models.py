@@ -51,3 +51,11 @@ class Message(models.Model):
     text = models.CharField(max_length=400)
     date = models.DateTimeField(auto_now_add=True)
     room = models.CharField(max_length=20000)
+
+
+# a database that contains the comment to each post
+class Comment(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, related_name='comments')
+    date = models.DateField(auto_now_add=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, related_name='comments')
+    text = models.CharField(max_length=200)

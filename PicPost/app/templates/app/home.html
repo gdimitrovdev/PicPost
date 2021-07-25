@@ -143,10 +143,17 @@
                     <a href="{%url 'profile' post.user.id%}" style="text-decoration:none;"><h4 style="text-align:left; padding:2px 10px;">{{post.user.username}}:</h4></a>
                     <p style="text-align:left; padding:2px 10px;">{{post.title}}</p>
                     {% if user in post.likes.all %}
-                        <button value="{{ post.id }}" id="dislike" style="text-align: left; padding: 2px 10px; color: red;">Liked</button>
+                        <button value="{{ post.id }}" id="dislike" style="padding: 2px 10px; color: red;">Liked</button>
                     {% else %}
-                        <button value="{{ post.id }}" id="like" style="text-align: left; padding: 2px 10px; color: gray;">Not liked</button>
+                        <button value="{{ post.id }}" id="like" style="padding: 2px 10px; color: gray;">Not liked</button>
                     {% endif %}
+                    <input type="text" class="postInput">
+                    <button value="{{ post.id }}" data_value="{{ post.user.id }}" class="comment">Add Comment</button>
+                    <p style="text-align:left; padding:2px 10px;">Comments</p>
+                    {% for comment in post.comments.all %}
+                        <a href="{%url 'profile' post.user.id%}" style="text-decoration:none;"><h4 style="text-align:left; padding:2px 10px;">{{ comment.user.username }}:</h4></a>
+                        <p style="text-align:left; padding:2px 10px;">{{ comment.text }}</p>
+                    {% endfor %}
                 </div>
                 {%endfor%}
             </div>
@@ -156,37 +163,78 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!--a function to like and dislike posts without refreshing the page-->
     <script>
         let like_buttons = document.querySelectorAll("#like");
         let dislike_buttons = document.querySelectorAll('#dislike');
 
-        for(let i=0; i<like_buttons.length; i++){
-            btn = like_buttons[i];
+        function react(btn){
             btn.addEventListener('click', function(i){
                 $.ajax({
                     type: 'GET',
                     url: "{% url 'like_post' %}",
                     data: {"id": btn.value},
                     success: function (response) {
-                        btn.textContent = 'Liked';
-                        btn.style.color = 'red';
+                        if (btn.textContent == 'Not liked'){
+                            btn.textContent = 'Liked';
+                            btn.style.color = 'red';
+                        }
+                        else {
+                            btn.textContent = 'Not liked';
+                            btn.style.color = 'gray';
+                        }
                     }
                 })
             });
         }
 
+        for(let i=0; i<like_buttons.length; i++){
+            btn = like_buttons[i];
+            react(btn);
+        }
+
         for(let i=0; i<dislike_buttons.length; i++){
             btn = dislike_buttons[i];
-            btn.addEventListener('click', function(i){
-                $.ajax({
-                    type: 'GET',
-                    url: "{% url 'like_post' %}",
-                    data: {"id": btn.value},
-                    success: function (response) {
-                        btn.textContent = 'Not liked';
-                        btn.style.color = 'gray';
-                    }
-                })
+            react(btn);
+        }
+    </script>
+
+    <!--a function to comment posts without refreshing the page-->
+    <script>
+        let comment_buttons = document.querySelectorAll(".comment");
+
+        for(let i=0; i<comment_buttons.length; i++){
+            btn1 = comment_buttons[i];
+            let input = btn1.parentElement.querySelector('input');
+
+            btn1.addEventListener('click', function(i){
+                if (input.value != ''){
+                    $.ajax({
+                        type: 'GET',
+                        url: "{% url 'comment_post' %}",
+                        data: {"id": btn1.value, "text": input.value},
+                        success: function (response) {
+                            let post = btn1.parentElement;
+
+                            let comment_user_href = document.createElement('a');
+                            comment_user_href.setAttribute("href", "{% url 'profile' " + btn1.data_value + " %}");
+                            comment_user_href.setAttribute("style", "text-decoration:none;");
+
+                            let comment_user = document.createElement('h4');
+                            comment_user.setAttribute('style', "text-align:left; padding:2px 10px;");
+                            comment_user.textContent = "{{ user.username }}";
+
+                            let comment_text = document.createElement('p');
+                            comment_text.setAttribute('style', "text-align:left; padding:2px 10px;");
+                            comment_text.textContent = input.value;
+
+                            comment_user_href.appendChild(comment_user);
+                            post.appendChild(comment_user_href);
+                            post.appendChild(comment_text);
+                        }
+                    })
+                }
             });
         }
     </script>
