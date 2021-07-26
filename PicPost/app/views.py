@@ -275,8 +275,6 @@ def comment_post(request):
     post = Post.objects.get(pk=post_id)
     comment_text = request.GET.get('text', None)
 
-    print('We got to here----------------')
-
     new_comment = Comment(user=request.user, post=post, text=comment_text)
     new_comment.save()
 

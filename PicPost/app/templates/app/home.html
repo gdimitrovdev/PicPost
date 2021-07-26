@@ -190,12 +190,12 @@
         }
 
         for(let i=0; i<like_buttons.length; i++){
-            btn = like_buttons[i];
+            let btn = like_buttons[i];
             react(btn);
         }
 
         for(let i=0; i<dislike_buttons.length; i++){
-            btn = dislike_buttons[i];
+            let btn = dislike_buttons[i];
             react(btn);
         }
     </script>
@@ -205,7 +205,7 @@
         let comment_buttons = document.querySelectorAll(".comment");
 
         for(let i=0; i<comment_buttons.length; i++){
-            btn1 = comment_buttons[i];
+            let btn1 = comment_buttons[i];
             let input = btn1.parentElement.querySelector('input');
 
             btn1.addEventListener('click', function(i){
@@ -232,6 +232,8 @@
                             comment_user_href.appendChild(comment_user);
                             post.appendChild(comment_user_href);
                             post.appendChild(comment_text);
+
+                            input.value = '';
                         }
                     })
                 }
