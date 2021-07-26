@@ -88,15 +88,22 @@
         <button value="{{ post.id }}" data_value="{{ post.user.id }}" class="comment">Add Comment</button>
         <p style="text-align:left; padding:2px 10px;">Comments</p>
         {% for comment in post.comments.all|slice:':3' %}
-            <a href="{%url 'profile' post.user.id%}" style="text-decoration:none;"><h4 style="text-align:left; padding:2px 10px;">{{ comment.user.username }}:</h4></a>
-            <p style="text-align:left; padding:2px 10px;">{{ comment.text }}</p>
+            <div class="comment_div">
+                <a href="{%url 'profile' post.user.id%}" style="text-decoration:none;"><h4 style="text-align:left; padding:2px 10px;">{{ comment.user.username }}:</h4></a>
+                <p style="text-align:left; padding:2px 10px;">{{ comment.text }}</p>
+            </div>
         {% endfor %}
-        <button style="text-align:left; padding:2px 10px;">... see all comments</button>
+        {% for comment in post.comments.all|slice:'3:' %}
+            <div class="comment_div" style="display: None">
+                <a href="{%url 'profile' post.user.id%}" style="text-decoration:none;"><h4 style="text-align:left; padding:2px 10px;">{{ comment.user.username }}:</h4></a>
+                <p style="text-align:left; padding:2px 10px;">{{ comment.text }}</p>
+            </div>
+        {% endfor %}
+        <button value="{{ post.id }}" data_value="{{ post.user.id }}" class="show_comments" style="text-align:left; padding:2px 10px;">... see all comments</button>
     </div>
     {%endfor%}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
     <!--a function to like and dislike posts without refreshing the page-->
     <script>
         let like_buttons = document.querySelectorAll("#like");
@@ -150,6 +157,9 @@
                         success: function (response) {
                             let post = btn1.parentElement;
 
+                            let comment_div = document.createElement('div');
+                            comment_div.setAttribute('class', 'comment_div');
+
                             let comment_user_href = document.createElement('a');
                             comment_user_href.setAttribute("href", "{% url 'profile' " + btn1.data_value + " %}");
                             comment_user_href.setAttribute("style", "text-decoration:none;");
@@ -163,12 +173,35 @@
                             comment_text.textContent = input.value;
 
                             comment_user_href.appendChild(comment_user);
-                            post.appendChild(comment_user_href);
-                            post.appendChild(comment_text);
+
+                            comment_div.appendChild(comment_user_href);
+                            comment_div.appendChild(comment_text);
+
+                            post.appendChild(comment_div);
 
                             input.value = '';
                         }
                     })
+                }
+            });
+        }
+    </script>
+
+    <!--a script to show all comments to a post-->
+    <script>
+        let show_comments_buttons = document.querySelectorAll('.show_comments');
+
+        for(let i=0; i<show_comments_buttons.length; i++){
+            let btn2 = show_comments_buttons[i];
+
+            btn2.addEventListener('click', function(){
+                let post = btn2.parentElement;
+
+                let all_comments = document.querySelectorAll('.comment_div');
+                for(let j=0; j<all_comments.length; j++){
+                    let curr_comment = all_comments[j];
+                    curr_comment.style.display = 'block';
+                    btn2.style.display = 'none';
                 }
             });
         }
