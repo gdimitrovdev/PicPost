@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CACHES = {
     "default": {
          "BACKEND": "redis_cache.RedisCache",
-         "LOCATION": "redis://:pc5b9596ef93d4c60def5913aa792e546d932f3d1d86c278ea10d99a199010e4e@ec2-52-48-196-4.eu-west-1.compute.amazonaws.com:7909",
+         "LOCATION": "redis://:pb27a4a4c07e39ea4588896f4312bc45801ae21e3a2c469351a1b121679a0e47b@ec2-52-210-1-88.eu-west-1.compute.amazonaws.com:22810",
     }
 }
 
@@ -138,10 +138,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # channels
 ASGI_APPLICATION = 'PicPost.routing.application'
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": ["redis://redistogo:6f6c22fd687374c3ddcbe3dddd006054@soapfish.redistogo.com:11637/"],
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": ["redis://:pb27a4a4c07e39ea4588896f4312bc45801ae21e3a2c469351a1b121679a0e47b@ec2-52-210-1-88.eu-west-1.compute.amazonaws.com:22810"],
         },
     },
 }
