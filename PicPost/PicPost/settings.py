@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CACHES = {
     "default": {
          "BACKEND": "redis_cache.RedisCache",
-         "LOCATION": "redis://:pb27a4a4c07e39ea4588896f4312bc45801ae21e3a2c469351a1b121679a0e47b@ec2-52-210-1-88.eu-west-1.compute.amazonaws.com:22810",
+         "LOCATION": "redis://redis-picpostsite-10519419:yudPapQajk6bYlPb8ijJeEdnUWGiy999@redis-12386.c247.eu-west-1-1.ec2.cloud.redislabs.com:12386",
     }
 }
 
@@ -141,7 +141,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": ["redis://:pb27a4a4c07e39ea4588896f4312bc45801ae21e3a2c469351a1b121679a0e47b@ec2-52-210-1-88.eu-west-1.compute.amazonaws.com:22810"],
+            "hosts": ["redis://redis-picpostsite-10519419:yudPapQajk6bYlPb8ijJeEdnUWGiy999@redis-12386.c247.eu-west-1-1.ec2.cloud.redislabs.com:12386"],
         },
     },
 }
