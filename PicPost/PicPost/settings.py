@@ -17,13 +17,6 @@ import django_heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-CACHES = {
-    "default": {
-         "BACKEND": "redis_cache.RedisCache",
-         "LOCATION": "redis://redis-picpostsite-10519419:yudPapQajk6bYlPb8ijJeEdnUWGiy999@redis-12386.c247.eu-west-1-1.ec2.cloud.redislabs.com:12386",
-    }
-}
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
